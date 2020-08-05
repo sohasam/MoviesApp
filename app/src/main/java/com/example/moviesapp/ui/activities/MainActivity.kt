@@ -6,14 +6,17 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.example.moviesapp.R
+import com.example.moviesapp.contracts.IHomeContract
 import com.example.moviesapp.data.pojos.MoviesModel
 import com.example.moviesapp.data.retrofit.ApiClient
+import com.example.moviesapp.presenters.HomeMoviesPresenter
 import com.example.moviesapp.ui.adapters.MyFragmentPagerAdapter
 import com.google.android.material.tabs.TabLayout
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),IHomeContract.IHomeView {
+    var presenter:IHomeContract.IHomePresenter=HomeMoviesPresenter(this);
     var tabLayout: TabLayout? = null
     var viewPager: ViewPager? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         tabLayout =findViewById<TabLayout>(R.id.tabLayout)
         viewPager = findViewById<ViewPager>(R.id.viewPger)
         viewTabedPage();
-        tryretrofit();//presenter.renderMovies
+
     }
 
 
@@ -52,24 +55,19 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-    fun tryretrofit()
+
+
+    fun onSearchTextChange(text:String)
     {
-        ApiClient.client?.search("cf52c65b5b064bd7282d2382cfe9768d","Aliens")?.enqueue(object : Callback<MoviesModel> {
-            override fun onFailure(call: retrofit2.Call<MoviesModel>, t: Throwable) {
-                Log.i("soha","faillllll");
+        //هنادي الpresenter
+        presenter.getMoviesWithTitle(text);
 
-            }
-
-            override fun onResponse(call: retrofit2.Call<MoviesModel>, response: Response<MoviesModel>) {
-                Log.i("soha","onResponse");
-                Log.i("soha", "onResponse${response.body()?.results}");
-
-            }
-
-        }
-
-        )
     }
+
+    override fun renderMovies(movies: List<MoviesModel>) {
+        TODO("Not yet implemented")
+    }
+
 
 }
 //https://api.themoviedb.org/3/movie/550?api_key=cf52c65b5b064bd7282d2382cfe9768d
