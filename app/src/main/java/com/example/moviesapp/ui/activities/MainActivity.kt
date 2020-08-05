@@ -31,6 +31,8 @@ class MainActivity : AppCompatActivity() {
         var adapter :MyFragmentPagerAdapter=
             MyFragmentPagerAdapter(this,tabLayout!!.tabCount,supportFragmentManager)
         viewPager!!.adapter=adapter
+        viewPager!!.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))//
+
         tabLayout!!.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
 
