@@ -12,12 +12,12 @@ class HomeMoviesPresenter(var view:IHomeContract.IHomeView):IHomeContract.IHomeP
     }
 
     override fun onSuccessRetrieveMovies(movies: MoviesModel) {
-       // view.renderMovies()
-        Log.i("soha","onResponse");
-        Log.i("soha", "onResponse${movies}");
+              view.renderMovies(movies.results);
+
     }
 
     override fun onFailedToRetrieveMovies() {
         Log.i("soha","faillllll");
+        view.renderMovies(null)
     }
 }

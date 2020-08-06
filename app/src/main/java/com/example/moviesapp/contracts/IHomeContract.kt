@@ -1,11 +1,12 @@
 package com.example.moviesapp.contracts
 
+import com.example.moviesapp.data.pojos.Movie
 import com.example.moviesapp.data.pojos.MoviesModel
 
 interface IHomeContract {
 
     interface IHomeView{
-         fun renderMovies(movies:List<MoviesModel>);
+         fun renderMovies(movies: List<Movie>?);
     }
 
     interface IHomePresenter{

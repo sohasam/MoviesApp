@@ -1,14 +1,21 @@
 package com.example.moviesapp.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 import com.example.moviesapp.R
+import com.example.moviesapp.data.pojos.Movie
 import com.example.moviesapp.ui.activities.MainActivity
+import com.example.moviesapp.ui.adapters.MoviesListAdapter
+import kotlinx.android.synthetic.main.fragment_search.*
+import java.util.ArrayList
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,7 +29,8 @@ private const val ARG_PARAM2 = "param2"
  */
 class SearchFragment : Fragment() {
     var searchView : SearchView ?=null //--
-
+    var recyclerView:RecyclerView?=null
+    var myMovies:List<Movie>?=ArrayList<Movie>()
 
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -43,9 +51,12 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-    var view :View =     inflater.inflate(R.layout.fragment_search, container, false)
-        searchView =  view.findViewById<SearchView>(R.id.searchView)//--
-        return view
+    var view :View =    inflater.inflate(R.layout.fragment_search, container, false)
+        searchView =    view.findViewById<SearchView>(R.id.searchView)//--
+       recyclerView =   view.findViewById<RecyclerView>(R.id.recycleView)
+        recyclerView!!.layoutManager = LinearLayoutManager(activity)
+
+            return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -59,6 +70,7 @@ class SearchFragment : Fragment() {
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (newText != null) {
                     (activity as MainActivity).onSearchTextChange(newText)
+//
                 }
                 return  true
             }
@@ -66,6 +78,19 @@ class SearchFragment : Fragment() {
 
 
     }
+    fun viewListMovies(movies:List<Movie>) {
+//        myMovies= movies
+        Log.i("soha","______________ movies$movies")
+
+        recyclerView!!.adapter = MoviesListAdapter(movies);
+
+        //   recyclerView!!.adapter?.notifyDataSetChanged()
+
+    }
+
+
+
+
 
     companion object {
         /**
@@ -86,4 +111,5 @@ class SearchFragment : Fragment() {
                 }
             }
     }
+
 }

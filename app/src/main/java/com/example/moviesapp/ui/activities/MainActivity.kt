@@ -1,39 +1,38 @@
 package com.example.moviesapp.ui.activities
 
 import android.os.Bundle
-import android.telecom.Call
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.example.moviesapp.R
 import com.example.moviesapp.contracts.IHomeContract
-import com.example.moviesapp.data.pojos.MoviesModel
-import com.example.moviesapp.data.retrofit.ApiClient
+import com.example.moviesapp.data.pojos.Movie
 import com.example.moviesapp.presenters.HomeMoviesPresenter
 import com.example.moviesapp.ui.adapters.MyFragmentPagerAdapter
+import com.example.moviesapp.ui.fragments.SearchFragment
 import com.google.android.material.tabs.TabLayout
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.android.synthetic.main.fragment_search.*
 
-class MainActivity : AppCompatActivity(),IHomeContract.IHomeView {
-    var presenter:IHomeContract.IHomePresenter=HomeMoviesPresenter(this);
+class MainActivity : AppCompatActivity(), IHomeContract.IHomeView {
+    var adapter: MyFragmentPagerAdapter? = null;
+    var presenter: IHomeContract.IHomePresenter = HomeMoviesPresenter(this);
     var tabLayout: TabLayout? = null
     var viewPager: ViewPager? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        tabLayout =findViewById<TabLayout>(R.id.tabLayout)
+        tabLayout = findViewById<TabLayout>(R.id.tabLayout)
         viewPager = findViewById<ViewPager>(R.id.viewPger)
         viewTabedPage();
 
     }
 
 
-
-    fun viewTabedPage(){
-        var adapter :MyFragmentPagerAdapter=
-            MyFragmentPagerAdapter(this,tabLayout!!.tabCount,supportFragmentManager)
-        viewPager!!.adapter=adapter
+    fun viewTabedPage() {
+        adapter =
+            MyFragmentPagerAdapter(this, tabLayout!!.tabCount, supportFragmentManager)
+        viewPager!!.adapter = adapter
         viewPager!!.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))//
 
         tabLayout!!.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -46,7 +45,7 @@ class MainActivity : AppCompatActivity(),IHomeContract.IHomeView {
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
 
-          viewPager!!.currentItem=tab!!.position;
+                viewPager!!.currentItem = tab!!.position;
 
 
             }
@@ -57,15 +56,27 @@ class MainActivity : AppCompatActivity(),IHomeContract.IHomeView {
     }
 
 
-    fun onSearchTextChange(text:String)
-    {
-        //هنادي الpresenter
+    fun onSearchTextChange(text: String) {
         presenter.getMoviesWithTitle(text);
 
     }
 
-    override fun renderMovies(movies: List<MoviesModel>) {
-        TODO("Not yet implemented")
+    override fun renderMovies(movies: List<Movie>?) {
+        var pos: Int = viewPager!!.getCurrentItem();
+        val currentFragment =
+            supportFragmentManager.findFragmentByTag("android:switcher:" + R.id.viewPger.toString() + ":" + viewPager!!.currentItem)
+
+        // var activeFragment : Fragment = adapter!!.getItem(pos);
+        if (movies != null) {
+            if (pos == 0) {
+
+                (currentFragment as SearchFragment).viewListMovies(movies)
+            }
+
+
+        }
+
+
     }
 
 
