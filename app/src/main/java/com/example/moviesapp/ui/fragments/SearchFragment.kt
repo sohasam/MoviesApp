@@ -1,5 +1,6 @@
 package com.example.moviesapp.ui.fragments
 
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -11,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.example.moviesapp.R
-import com.example.moviesapp.data.pojos.Movie
+import com.example.moviesapp.data.roomDatabase.entities.Movie
 import com.example.moviesapp.ui.activities.MainActivity
 import com.example.moviesapp.ui.adapters.MoviesListAdapter
 import kotlinx.android.synthetic.main.fragment_search.*
@@ -82,7 +83,7 @@ class SearchFragment : Fragment() {
 //        myMovies= movies
         Log.i("soha","______________ movies$movies")
 
-        recyclerView!!.adapter = MoviesListAdapter(movies);
+        recyclerView!!.adapter = activity?.let { MoviesListAdapter(movies, it) };
 
         //   recyclerView!!.adapter?.notifyDataSetChanged()
 

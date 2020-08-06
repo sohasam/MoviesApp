@@ -1,15 +1,17 @@
 package com.example.moviesapp.ui.adapters
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviesapp.R
-import com.example.moviesapp.data.pojos.Movie
+import com.example.moviesapp.data.roomDatabase.entities.Movie
+import com.example.moviesapp.ui.activities.MainActivity
 import kotlinx.android.synthetic.main.list_item.view.*
 
-class MoviesListAdapter (var movies:List<Movie>): RecyclerView.Adapter<MoviesListAdapter.myViewHolder>() {
+class MoviesListAdapter (var movies:List<Movie>,var context :Context): RecyclerView.Adapter<MoviesListAdapter.myViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesListAdapter.myViewHolder {
 
 
@@ -19,25 +21,25 @@ class MoviesListAdapter (var movies:List<Movie>): RecyclerView.Adapter<MoviesLis
     }
 
     override fun getItemCount(): Int {
-        Log.i("soha","______________ movies.size :${ movies.size}")
 
         return  movies.size
     }
 
     override fun onBindViewHolder(holder: MoviesListAdapter.myViewHolder, position: Int) {
         holder.itemView.titleTextView.text =movies[position].title
-        Log.i("soha","______________ title :$movies")
 
-        if (movies[position].releaseDate== null) {
+        if (movies[position].releaseDate!= null) {
 
             holder.itemView.dateTextView.text = movies[position].releaseDate;
         }
 
-        if (movies[position].voteAverage== null) {
+        if (movies[position].voteAverage!= null) {
             holder.itemView.rateTextView.text = movies[position].voteAverage.toString()
         }
 
-
+        holder.itemView.favouritBtn.setOnClickListener {
+            (context as MainActivity).onFavouriteBtnClicke( movies[position])
+        }
 
     }
 

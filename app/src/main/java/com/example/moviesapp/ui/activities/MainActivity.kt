@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.example.moviesapp.R
 import com.example.moviesapp.contracts.IHomeContract
-import com.example.moviesapp.data.pojos.Movie
+import com.example.moviesapp.data.roomDatabase.entities.Movie
 import com.example.moviesapp.presenters.HomeMoviesPresenter
 import com.example.moviesapp.ui.adapters.MyFragmentPagerAdapter
 import com.example.moviesapp.ui.fragments.SearchFragment
@@ -16,18 +16,29 @@ import kotlinx.android.synthetic.main.fragment_search.*
 
 class MainActivity : AppCompatActivity(), IHomeContract.IHomeView {
     var adapter: MyFragmentPagerAdapter? = null;
-    var presenter: IHomeContract.IHomePresenter = HomeMoviesPresenter(this);
+    var presenter: IHomeContract.IHomePresenter ?=null
     var tabLayout: TabLayout? = null
     var viewPager: ViewPager? = null
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.i("soha", "onCreate");
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+       presenter = HomeMoviesPresenter(this,this);
+
         tabLayout = findViewById<TabLayout>(R.id.tabLayout)
         viewPager = findViewById<ViewPager>(R.id.viewPger)
         viewTabedPage();
 
     }
 
+
+    override fun onStart() {
+        super.onStart()
+        var movies = presenter!!.getFavouriteMovies()
+        Log.i("soha","Favourites = $movies")
+
+    }
 
     fun viewTabedPage() {
         adapter =
@@ -57,8 +68,15 @@ class MainActivity : AppCompatActivity(), IHomeContract.IHomeView {
 
 
     fun onSearchTextChange(text: String) {
-        presenter.getMoviesWithTitle(text);
+        presenter!!.getMoviesWithTitle(text);
 
+    }
+    fun onFavouriteBtnClicke(movie:Movie )
+    {
+        var pos: Int = viewPager!!.getCurrentItem();
+        if (pos == 0) {
+            presenter!!.addMovieToFavourites(movie)
+        }
     }
 
     override fun renderMovies(movies: List<Movie>?) {
