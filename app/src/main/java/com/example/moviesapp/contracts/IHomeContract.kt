@@ -7,6 +7,7 @@ interface IHomeContract {
 
     interface IHomeView{
          fun renderMovies(movies: List<Movie>?);
+
     }
 
     interface IHomePresenter{
@@ -14,7 +15,7 @@ interface IHomeContract {
         fun onSuccessRetrieveMovies(movies:MoviesModel);
         fun onFailedToRetrieveMovies();
         fun addMovieToFavourites(movie:Movie);
-        fun getFavouriteMovies():List<Movie>
+        fun getFavouriteMovies()
 
 
     }

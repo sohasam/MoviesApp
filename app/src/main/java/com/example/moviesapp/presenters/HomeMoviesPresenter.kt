@@ -28,7 +28,10 @@ class HomeMoviesPresenter(var view:IHomeContract.IHomeView,var context:Context):
         dataModel.addMovieToFavouriteTable(movie)
     }
 
-    override fun getFavouriteMovies(): List<Movie> {
-       return  dataModel.retrieveFavouriteMovies()
+    override fun getFavouriteMovies() {
+        view.renderMovies(         dataModel.retrieveFavouriteMovies() )
+
+
+
     }
 }
