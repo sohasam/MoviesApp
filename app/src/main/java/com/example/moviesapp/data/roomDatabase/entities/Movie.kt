@@ -10,7 +10,7 @@ data class Movie (
     @PrimaryKey
     val id: Long,
     @ColumnInfo(name = "vote_average")
-    val vote_average: Long?,
+    val vote_average: Double?,
     @ColumnInfo(name = "poster_path")
 
     val poster_path: String?,
