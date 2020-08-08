@@ -1,5 +1,6 @@
 package com.example.moviesapp.ui.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -120,6 +121,21 @@ class MainActivity : AppCompatActivity(), IHomeContract.IHomeView {
     fun onFavouriteFragmentStarted()
     {
         presenter!!.getFavouriteMovies()
+    }
+    fun onShareBtnClicked(movie: Movie)
+    {
+
+
+        var msg: String = "Movie Title :  ${movie.title} , release_date=${movie.release_date}  " +
+                "  , poster path : https://image.tmdb.org/t/p/w500${movie.poster_path} "
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT,  msg)
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
     }
 
 

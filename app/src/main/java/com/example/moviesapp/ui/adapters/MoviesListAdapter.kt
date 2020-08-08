@@ -57,6 +57,10 @@ class MoviesListAdapter (var movies:List<Movie>,var context :Context): RecyclerV
             holder.itemView.imageView
         )
 
+        holder.itemView.share_btn.setOnClickListener(View.OnClickListener {
+            (context as MainActivity).onShareBtnClicked(movies[position])
+        })
+
     }
 
     class myViewHolder(v: View): RecyclerView.ViewHolder(v) {

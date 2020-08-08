@@ -16,6 +16,7 @@ interface IHomeContract {
         fun onFailedToRetrieveMovies();
         fun addMovieToFavourites(movie:Movie);
         fun getFavouriteMovies()
+      //  fun shareMovie(movie: Movie)
 
 
     }
