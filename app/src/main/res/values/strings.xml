@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Movies App</string>
+    <string name="app_title">CRYCL  Movies App  by Soha Samir</string>
+
     <string name="Search">Search</string>
     <string name="Favourite">Favourite</string>
 

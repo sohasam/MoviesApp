@@ -1,5 +1,6 @@
 package com.example.moviesapp.data.roomDatabase.entities
 
+import android.graphics.Bitmap
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -8,21 +9,23 @@ import androidx.room.PrimaryKey
 data class Movie (
     @PrimaryKey
     val id: Long,
-    @ColumnInfo(name = "voteCount")
-    val voteCount: Long?,
-    @ColumnInfo(name = "posterPath")
+    @ColumnInfo(name = "vote_average")
+    val vote_average: Long?,
+    @ColumnInfo(name = "poster_path")
 
-    val posterPath: String?,
+    val poster_path: String?,
     @ColumnInfo(name = "title")
 
     val title: String,
-    @ColumnInfo(name = "voteAverage")
 
-    val voteAverage: Double?,
     @ColumnInfo(name = "overview")
 
     val overview: String?,
-    @ColumnInfo(name = "releaseDate")
+    @ColumnInfo(name = "release_date")
 
-    val releaseDate: String?
+    val release_date: String?,
+
+
+
+val img:String?
 )

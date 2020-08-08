@@ -24,5 +24,6 @@ interface IHomeContract {
         fun addMovieToFavouriteTable(movie:Movie)
         fun retrieveFavouriteMovies():List<Movie>
 
+
     }
 }

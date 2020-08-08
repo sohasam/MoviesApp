@@ -2,4 +2,5 @@
 <resources>
     <dimen name="margin">60dp</dimen>
     <dimen name="margin15">15dp</dimen>
+    <dimen name="margin30">30dp</dimen>
 </resources>
