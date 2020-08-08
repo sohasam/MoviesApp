@@ -3,4 +3,9 @@
     <dimen name="margin">60dp</dimen>
     <dimen name="margin15">15dp</dimen>
     <dimen name="margin30">30dp</dimen>
+    <dimen name="btn_corner_radius">4dp</dimen>
+    <dimen name="card_corner_radius">9dp</dimen>
+
+    <dimen name="margin5">5dp</dimen>
+    <dimen name="d5">5dp</dimen>
 </resources>
