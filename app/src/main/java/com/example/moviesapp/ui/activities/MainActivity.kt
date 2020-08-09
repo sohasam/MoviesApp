@@ -3,6 +3,7 @@ package com.example.moviesapp.ui.activities
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
@@ -91,20 +92,25 @@ class MainActivity : AppCompatActivity(), IHomeContract.IHomeView {
     }
     fun onFavouriteBtnClicke(movie:Movie )
     {
-        var pos: Int = viewPager!!.currentItem
-        if (pos == 0) {
+        if (isSearchOrFavouriteFragment()) {
             presenter!!.addMovieToFavourites(movie)
+        }
+        else
+        {
+            presenter!!.removeMovieFromFavourites(movie)
+            presenter!!.getFavouriteMovies()
+
         }
     }
 
     override fun renderMovies(movies: List<Movie>?) {
-        var pos: Int = viewPager!!.currentItem
         val currentFragment =
             supportFragmentManager.findFragmentByTag("android:switcher:" + R.id.viewPger.toString() + ":" + viewPager!!.currentItem)
 
         // var activeFragment : Fragment = adapter!!.getItem(pos);
         if (movies != null &&currentFragment!=null) {
-            if (pos == 0) {
+            if (isSearchOrFavouriteFragment())// search fragment
+            {
 
                 (currentFragment as SearchFragment).viewListMovies(movies)
             }
@@ -118,6 +124,11 @@ class MainActivity : AppCompatActivity(), IHomeContract.IHomeView {
 
 
     }
+
+    override fun showToast(msg: String) {
+        Toast.makeText(this, msg,Toast.LENGTH_SHORT).show()
+    }
+
     fun onFavouriteFragmentStarted()
     {
         presenter!!.getFavouriteMovies()
@@ -136,6 +147,13 @@ class MainActivity : AppCompatActivity(), IHomeContract.IHomeView {
 
         val shareIntent = Intent.createChooser(sendIntent, null)
         startActivity(shareIntent)
+    }
+
+    fun isSearchOrFavouriteFragment() :Boolean
+    {
+        var pos: Int = viewPager!!.currentItem
+        return pos == 0
+
     }
 
 

@@ -1,19 +1,18 @@
 package com.example.moviesapp.data
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.util.Log
 import com.example.moviesapp.contracts.IHomeContract
 import com.example.moviesapp.data.pojos.MoviesModel
 import com.example.moviesapp.data.retrofit.ApiClient
 import com.example.moviesapp.data.roomDatabase.AppDatabase
 import com.example.moviesapp.data.roomDatabase.entities.Movie
-import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.Exception
 import java.util.ArrayList
 
-class HomeDataModel(var presenter :IHomeContract.IHomePresenter,var context:Context) :IHomeContract.IHomeModel{
+ class HomeDataModel(var presenter :IHomeContract.IHomePresenter, var context:Context) :IHomeContract.IHomeModel{
 
     var appDatabase: AppDatabase? = null
     init {
@@ -49,11 +48,28 @@ class HomeDataModel(var presenter :IHomeContract.IHomePresenter,var context:Cont
     override fun addMovieToFavouriteTable(movie: Movie) {
         Log.i("soha", "add :${movie}");
 
-    appDatabase!!.MovieDao()!!.insertFavouriteMovie(movie)
+        try {
+            appDatabase!!.MovieDao()!!.insertFavouriteMovie(movie)
+            presenter.onSuccessAddMovie()
+        }
+        catch (e: Exception)
+        {
+            presenter.onFailedToAddMovie()
+
+        }
+
 
     }
 
-    override fun retrieveFavouriteMovies(): List<Movie> {
+    override fun removeMovieFromFavouritesTable(movie: Movie) {
+        appDatabase!!.MovieDao()!!.deleteFavouriteMovie(movie)
+    }
+
+     override fun selectMovieById(id: Long): Movie? {
+        return appDatabase!!.MovieDao()!!.getMovieById(id)
+     }
+
+     override fun retrieveFavouriteMovies(): List<Movie> {
      var movies = appDatabase!!.MovieDao()!!.getAllFavouriteMovies()
         if (movies!=null)
             return movies  as List<Movie>

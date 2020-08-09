@@ -19,5 +19,5 @@ interface MovieDao {
 
 
     @Query("SELECT * FROM Movie WHERE id  LIKE :movieId ")
-    fun getMovieById(movieId: Int): Movie?
+    fun getMovieById(movieId: Long): Movie?
 }

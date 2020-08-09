@@ -25,7 +25,27 @@ class HomeMoviesPresenter(var view:IHomeContract.IHomeView,var context:Context):
 
     override fun addMovieToFavourites(movie: Movie) {
         Log.i("soha", "presenter add :${movie}");
-        dataModel.addMovieToFavouriteTable(movie)
+
+
+        if (isMovieInFvourites(movie))
+        {
+            view.showToast("This Movie Is Already In Favourites ")
+        }
+        else {
+            dataModel.addMovieToFavouriteTable(movie)
+
+        }
+    }
+
+    override fun onSuccessAddMovie() {
+        view.showToast("Movie Successfully Added To Favourites ")
+    }
+
+    override fun onFailedToAddMovie() {
+        view.showToast("Un Expected Error")    }
+
+    override fun removeMovieFromFavourites(movie: Movie) {
+dataModel.removeMovieFromFavouritesTable(movie)
     }
 
     override fun getFavouriteMovies() {
@@ -33,5 +53,9 @@ class HomeMoviesPresenter(var view:IHomeContract.IHomeView,var context:Context):
 
 
 
+    }
+
+    override fun isMovieInFvourites(movie: Movie): Boolean {
+return !(dataModel.selectMovieById(movie.id)==null)
     }
 }
